@@ -1,0 +1,42 @@
+{
+  "platform": "Windows x64",
+  "method": "Isolated test command namespace, same public plugin and native host logic; fixture in a dedicated Sublime window. Clipboard restored after copy check.",
+  "plugin_python": "3.14",
+  "embedding_checks": {
+    "same_window_count": true,
+    "source_preserved": true,
+    "native_child_parent": true,
+    "visible": true,
+    "rich_bold": true,
+    "selection": true,
+    "heading": true,
+    "table": true,
+    "image": true,
+    "highlight": true,
+    "mermaid": true,
+    "checkbox": true,
+    "body": true
+  },
+  "webview2_runtime": "155.0.4283.60",
+  "date": "2026-10-18",
+  "dpi_scale": 2,
+  "passed": true,
+  "sublime_build": 4215,
+  "version": "0.2.0",
+  "interaction_checks": {
+    "reuses_process": true,
+    "source_left_preview_right": true,
+    "native_copy": true,
+    "unsaved_live_update": true,
+    "resizes_with_pane": true,
+    "hidden_on_other_tab": true,
+    "restored_on_preview_tab": true,
+    "unnamed_buffer_preserved": true,
+    "unnamed_renders": true,
+    "host_exits_on_close": true,
+    "source_preserved_after_close": true,
+    "reopen_initializes": true,
+    "no_new_sublime_window": true,
+    "source_preserved": true
+  }
+}

@@ -1,0 +1,1 @@
+{"name":"RichMarkdownPreview","version":"0.2.0","description":"Windows WebView2 Markdown preview in the current Sublime Text window","sublime_text":">=4144","platforms":["windows-x64"],"python_version":"3.8","url":"https://github.com/generous-with/sublime-rich-markdown-preview","libraries":[]}

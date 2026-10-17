@@ -1,0 +1,7 @@
+[
+  {
+    "keys": ["alt+m"],
+    "command": "rich_markdown_preview",
+    "context": [{"key":"selector","operator":"equal","operand":"text.html.markdown"}]
+  }
+]

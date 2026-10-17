@@ -1,0 +1,38 @@
+{
+  "webview2": {
+    "version": "1.0.3537.50",
+    "sha256": "5ea526bbd728adda0da4d31219267e96460494a427e4894c4e09d9f320f4b9aa",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.3537.50/microsoft.web.webview2.1.0.3537.50.nupkg"
+  },
+  "schema": 1,
+  "npm": [
+    {
+      "integrity": "sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==",
+      "name": "dompurify",
+      "license": "(MPL-2.0 OR Apache-2.0)",
+      "version": "3.4.17",
+      "url": "https://registry.npmjs.org/dompurify/-/dompurify-3.4.17.tgz"
+    },
+    {
+      "integrity": "sha512-w7nr/SFrLO7BaVTs3dQTvYSV6nYSBj0Yy9DjBhsIJtAcHqRzXSq4Pg32ujHZ/AdWsAMNEvvhbm5dt9E2tOiHzw==",
+      "name": "mermaid",
+      "license": "MIT",
+      "version": "12.2.0",
+      "url": "https://registry.npmjs.org/mermaid/-/mermaid-12.2.0.tgz"
+    },
+    {
+      "integrity": "sha512-+Az7Ojz3iRGu8KYMvJ6xVhvrxP3eE+vEtJX75Ow88XBpcQNV/0lGX5ZynIIBftREo4DC2jsveAMDaeltmm8QvQ==",
+      "name": "markdown-it",
+      "license": "MIT",
+      "version": "15.0.3",
+      "url": "https://registry.npmjs.org/markdown-it/-/markdown-it-15.0.3.tgz"
+    },
+    {
+      "integrity": "sha512-KvOKXODaiFmId9xaq3xc5xCL66wVLUuOngDbO9B/kewbFTqdGbn2nJxNhN3H5R1cgDTVj6R8vH0zgiNDEGjpDw==",
+      "name": "@highlightjs/cdn-assets",
+      "license": "BSD-3-Clause",
+      "version": "11.12.0",
+      "url": "https://registry.npmjs.org/@highlightjs/cdn-assets/-/cdn-assets-11.12.0.tgz"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+[
+  {"caption":"Rich Markdown: Preview in Current Window","command":"rich_markdown_preview"},
+  {"caption":"Rich Markdown: Close Preview","command":"rich_markdown_close"}
+]
