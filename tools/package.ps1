@@ -1,6 +1,6 @@
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
-$version=(Get-Content (Join-Path $root 'package\package-metadata.json') -Raw -Encoding UTF8 | ConvertFrom-Json).version
+$version=(Get-Content (Join-Path $root 'package\rich-markdown-version.json') -Raw -Encoding UTF8 | ConvertFrom-Json).version
 $stage=Join-Path $root 'dist\unpacked'
 $payload=Join-Path $stage 'RichMarkdownPreview'
 if(Test-Path -LiteralPath $stage){throw 'dist/unpacked already exists; use a fresh build directory'}

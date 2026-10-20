@@ -41,6 +41,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\install.ps1 -PackagesP
 
 The installer backs up an existing package before replacing it. It does not modify your User settings or keybindings. You can also manually copy the extracted `RichMarkdownPreview` folder into Sublime's Packages folder.
 
+If Alt+M stopped working after installing 0.2.0, install 0.2.1 or later with the installer. The older archive used a Package Control metadata filename that could cause automatic orphan cleanup to delete this manually installed plugin. The updated installer replaces that marker without changing Package Control settings. For a manual upgrade, replace the old plugin folder completely rather than merging files.
+
 This package must remain an **unpacked folder**: its native helper cannot run from inside a `.sublime-package` archive. It is not currently available through Package Control. The release executable is unsigned; source builds are available below.
 
 ## Use

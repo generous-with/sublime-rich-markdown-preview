@@ -39,6 +39,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\install.ps1 -PackagesP
 
 安装器会备份旧插件，不修改 User 设置及快捷键。也可手动将解压后的 `RichMarkdownPreview` 文件夹复制到 Packages 目录。
 
+如果安装 0.2.0 后 Alt+M 突然失效，请用安装器升级到 0.2.1 或更新版本。旧版使用了 Package Control 的管理标记文件名，可能被它的孤立插件清理自动删除；新版移除了该标记，不改动 Package Control 设置。手动升级时请完整替换旧插件文件夹，不要仅合并文件。
+
 插件必须以**解压后的文件夹**安装，宿主程序不能直接从 `.sublime-package` 中运行。目前尚未上架 Package Control。发布的宿主 EXE 暂无代码签名，也可以自行从源码编译。
 
 ## 使用
