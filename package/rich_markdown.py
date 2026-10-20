@@ -2,6 +2,7 @@
 import json
 import os
 import pathlib
+import shutil
 import subprocess
 import time
 import uuid
@@ -55,7 +56,7 @@ def start_session(window, source, preview, layout, owns_layout):
         info.wShowWindow = 0
         arguments = [
             os.path.join(root, 'bin', 'PreviewHost.exe'), state_path, str(window.hwnd()),
-            os.path.join(root, 'web', 'preview.html'), os.path.join(runtime_root(), 'profiles', str(window.id()))
+            os.path.join(root, 'web', 'preview.html'), os.path.join(directory, 'browser-profile')
         ]
         if sublime.load_settings('RichMarkdownPreview.sublime-settings').get('enable_diagnostics', False):
             arguments.append('--diagnostics')
@@ -124,10 +125,29 @@ def tick(token):
                             message = 'Preview startup timed out. Close this tab and retry.'
                 if message:
                     session['error_reported'] = True
+                    session['overlay'] = True
                     preview.run_command('rich_markdown_message', {'text': message})
         except (OSError, RuntimeError) as error:
             print('RichMarkdownPreview:', error)
     sublime.set_timeout(lambda: tick(token), 120)
+
+
+def cleanup_profile(session, attempt=0):
+    """Retire only this session's cache after its native helper has exited."""
+    profile = os.path.realpath(os.path.join(os.path.dirname(session['state_path']), 'browser-profile'))
+    root = os.path.realpath(runtime_root())
+    if profile == root or not profile.startswith(root + os.sep):
+        return
+    process = session.get('process')
+    try:
+        if process and process.poll() is None:
+            raise OSError('Preview host is still running')
+        if os.path.isdir(profile):
+            shutil.rmtree(profile)
+        return
+    except OSError:
+        if attempt < 20:
+            sublime.set_timeout_async(lambda: cleanup_profile(session, attempt + 1), 1000)
 
 
 def stop_session(window_id):
@@ -142,6 +162,7 @@ def stop_session(window_id):
         session['source'].settings().erase(SOURCE_KEY)
     if session['preview'].is_valid():
         session['preview'].settings().erase(PREVIEW_KEY)
+    sublime.set_timeout_async(lambda: cleanup_profile(session), 3000)
     return session
 
 

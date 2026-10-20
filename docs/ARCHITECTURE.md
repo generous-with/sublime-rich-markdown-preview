@@ -6,6 +6,8 @@
 4. The browser loads bundled local assets. markdown-it parses Markdown; DOMPurify sanitizes HTML; highlight.js and Mermaid render code and diagrams.
 5. Closing a preview writes a closed marker. The host closes its WebView2 controller and exits. Plugin reloads close active sessions; stale scheduler callbacks are rejected by an epoch token.
 
+Each helper uses a temporary browser profile inside its unique session directory, avoiding contention with an earlier helper that is still shutting down. After the helper exits, a background task retires its profile with bounded retries for remaining file locks. Navigation begins with the requested pane visibility; browser visibility does not depend on navigation having completed.
+
 The helper is necessary because Sublime's minihtml is a limited renderer and does not provide ordinary selectable browser text. HWND embedding is a Windows integration technique, not an official embedded-browser API from Sublime.
 
 Primary references: [Sublime API](https://www.sublimetext.com/docs/api_reference.html), [WebView2 controller](https://learn.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2controller), [minihtml](https://www.sublimetext.com/docs/minihtml.html).

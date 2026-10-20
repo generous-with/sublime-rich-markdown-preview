@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.2 — reduce blank waiting on preview reopen
+
+- Keep the browser control visible while its local page loads; waiting for navigation completion before showing it could stall the initial navigation.
+- Give each preview helper an independent temporary browser profile. Reusing the old per-window profile caused long initialization waits in local close/reopen testing.
+- Retire temporary profiles asynchronously after their helper exits, with bounded retries for file locks and a cache-path guard. Keep error messages visible if startup fails.
+- Add regressions for profile isolation, cleanup ownership and startup-error visibility. Local timing comparisons are documented in `docs/VALIDATION.md`.
+
 ## 0.2.1 — prevent Package Control cleanup of manual installations
 
 - Rename the plugin's version file to `rich-markdown-version.json`. The reserved `package-metadata.json` name incorrectly made a manual install look managed by Package Control, whose orphan cleanup could delete it because it was absent from `installed_packages`.

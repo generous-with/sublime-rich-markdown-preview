@@ -21,6 +21,7 @@ class LifecycleTests(unittest.TestCase):
         sublime.Region = lambda a, b: (a, b)
         sublime.platform = lambda: 'windows'
         sublime.set_timeout = Mock()
+        sublime.set_timeout_async = Mock()
         plugin = types.ModuleType('sublime_plugin')
         plugin.TextCommand = plugin.WindowCommand = plugin.EventListener = object
         self.modules = patch.dict(sys.modules, sublime=sublime, sublime_plugin=plugin)
@@ -62,6 +63,52 @@ class LifecycleTests(unittest.TestCase):
         self.assertNotEqual(first['state_path'], second['state_path'])
         self.assertEqual(pathlib.Path(first['state_path']).read_text(), '{"closed": true}')
         self.assertIn('Unsaved private text', pathlib.Path(second['state_path']).read_text())
+
+    @patch('subprocess.Popen')
+    def test_close_reopen_does_not_share_a_browser_profile(self, popen):
+        self.start()
+        old_profile = popen.call_args.args[0][4]
+        self.app.stop_session(7)
+        self.start()
+        new_profile = popen.call_args.args[0][4]
+        self.assertNotEqual(old_profile, new_profile,
+                            'A new helper must not wait on the previous WebView2 profile')
+
+    @patch('subprocess.Popen')
+    def test_profile_cleanup_waits_for_helper_exit(self, popen):
+        session = self.start()
+        profile = pathlib.Path(popen.call_args.args[0][4])
+        profile.mkdir()
+        (profile / 'cache.txt').write_text('temporary browser data')
+        session['process'].poll.return_value = None
+        self.app.cleanup_profile(session)
+        self.assertTrue(profile.exists())
+        self.sublime.set_timeout_async.assert_called_once()
+        session['process'].poll.return_value = 0
+        self.app.cleanup_profile(session)
+        self.assertFalse(profile.exists())
+        self.assertTrue(pathlib.Path(session['state_path']).exists())
+
+    def test_profile_cleanup_rejects_paths_outside_its_cache(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / 'build') as other:
+            profile = pathlib.Path(other) / 'browser-profile'
+            profile.mkdir()
+            self.app.cleanup_profile({'state_path': str(pathlib.Path(other) / 'state.json')})
+            self.assertTrue(profile.exists())
+
+    @patch('subprocess.Popen')
+    def test_failed_host_does_not_cover_its_error_message(self, popen):
+        self.source.window.return_value = self.window
+        session = self.start()
+        session['process'].poll.return_value = 1
+        self.app.running = True
+        self.app.tick(self.app.epoch)
+        self.assertTrue(session['overlay'])
+        self.preview.run_command.assert_called_once()
+        self.app.tick(self.app.epoch)
+        import json
+        payload = json.loads(pathlib.Path(session['state_path']).read_text())
+        self.assertFalse(payload['visible'])
 
     @patch('subprocess.Popen')
     def test_browser_evaluation_requires_explicit_diagnostics_opt_in(self, popen):

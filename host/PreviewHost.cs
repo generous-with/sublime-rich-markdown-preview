@@ -133,7 +133,7 @@ internal sealed class Host : ApplicationContext {
             int width = Math.Max(1, (int)Math.Round(Convert.ToDouble(rect["width"]) * scale));
             int height = Math.Max(1, (int)Math.Round(Convert.ToDouble(rect["height"]) * scale));
             Native.SetWindowPos(child.Handle, IntPtr.Zero, x, y, width, height, 0x0014);
-            bool visible = loaded && Convert.ToBoolean(state["visible"]) && !Native.IsIconic(parent);
+            bool visible = Convert.ToBoolean(state["visible"]) && !Native.IsIconic(parent);
             Native.ShowWindow(child.Handle, visible ? 5 : 0);
             if (controller == null) return;
             controller.Bounds = new Rectangle(0, 0, width, height);
